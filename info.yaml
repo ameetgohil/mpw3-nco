@@ -1,20 +1,20 @@
 --- 
 # information
 project: 
-  title: "title"
-  description: "description"
+  title: "nco"
+  description: "generates signed sin and cos outputs given an angle"
   picture: docs/empty.png
-  author: "Author"
-  github: https://github.com/link
+  author: "Ameet Gohil"
+  github: https://github.com/ameetgohil/mpw3-nco
   license: LICENSE
 
 # test within caravel
 caravel_test:
   recipe: "coco_test"
-  directory: "caravel_test"
-  id: 1
-  module_name: "wrapped_project"
-  instance_name: "wrapped_project"
+  directory: "caravel_nco"
+  id: 0
+  module_name: "wrapped_nco"
+  instance_name: "wrapped_nco"
 
 # module test
 module_test:

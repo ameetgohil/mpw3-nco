@@ -5,10 +5,11 @@ mode prove
 smtbmc
 
 [script]
-read -formal wrapper.v rest of your source files.v
-prep -top wrapped_project
+read -formal wrapper.v NcoWB.v
+prep -top wrapped_nco
 
 [files]
 wrapper.v
 properties.v
-rest of your source files.v
+./src_spinal/generated/NcoWB.v
+

@@ -2,14 +2,15 @@
 set script_dir [file dirname [file normalize [info script]]]
 
 # name of your project, should also match the name of the top module
-set ::env(DESIGN_NAME) project_name
+set ::env(DESIGN_NAME) wrapped_nco
 
 # add your source files here
 set ::env(VERILOG_FILES) "$::env(DESIGN_DIR)/wrapper.v \
-    $::env(DESIGN_DIR)/other source files.v"
+    $::env(DESIGN_DIR)/src_spinal/generated/NcoWB.v \
+    $::env(DESIGN_DIR)/nco.v"
 
 # target density, change this if you can't get your design to fit
-set ::env(PL_TARGET_DENSITY) 0.4
+set ::env(PL_TARGET_DENSITY) 0.45
 
 # don't put clock buffers on the outputs, need tristates to be the final cells
 set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) 0
@@ -30,7 +31,7 @@ set ::env(DESIGN_IS_CORE) 0
 set ::env(GLB_RT_MAXLAYER) 5
 
 # define power straps so the macro works inside Caravel's PDN
-set ::env(VDD_NETS) [list {vccd1}]
+set ::env(VDD_NETS) [list {vccd1}] 
 set ::env(GND_NETS) [list {vssd1}]
 
 # regular pin order seems to help with aggregating all the macros for the group project

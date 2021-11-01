@@ -3,7 +3,7 @@
     `define MPRJ_IO_PADS 38    
 `endif
 // update this to the name of your module
-module wrapped_project(
+module wrapped_nco(
 `ifdef USE_POWER_PINS
     inout vccd1,	// User area 1 1.8V supply
     inout vssd1,	// User area 1 digital ground
@@ -74,6 +74,32 @@ module wrapped_project(
     // Instantiate your module here, 
     // connecting what you need of the above signals. 
     // Use the buffered outputs for your module's outputs.
+   wire [31:0] angle, xy;
+   
+   NcoWB u_ncowb
+     (.io_wb_CYC(wbs_cyc_i),
+      .io_wb_STB(wbs_stb_i),
+      .io_wb_ACK(buf_wbs_ack_o),
+      .io_wb_WE(wbs_we_i),
+      .io_wb_ADR(wbs_adr_i),
+      .io_wb_DAT_MISO(buf_wbs_dat_o),
+      .io_wb_DAT_MOSI(wbs_dat_i),
+      .io_wb_SEL(wbs_sel_i),
+      .io_angle(angle),
+      .io_xy(xy),
+      .clk(wb_clk_i),
+      .reset(wb_rst_i)
+      );
+
+   nco u_nco
+     (.clk(wb_clk_i),
+      .reset_n(~wb_rst_i),
+      .t_angle_dat(angle),
+      .t_angle_req(1'b1),
+      .i_nco_dat(xy),
+      .i_nco_ack(1'b1)
+      );
+   
 
 endmodule 
 `default_nettype wire
