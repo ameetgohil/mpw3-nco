@@ -34,11 +34,12 @@ openlane:
 # source required for various configs and module instantiation
 source:
     - wrapper.v
-    - other source files here
+    - nco.v
+    - src_spinal/generated/NcoWB.v
 
 # gds - check size = 300x300, nothing on metal 5, do a DRC, check 141 tristate buffers, check LVS
 gds:
   directory: "gds"
-  gds_filename: "project.gds"
-  lvs_filename: "project.lvs.powered.v"
-  lef_filename: "project.lef"
+  gds_filename: "wrapped_nco.gds"
+  lvs_filename: "wrapped_nco.lvs.powered.v"
+  lef_filename: "wrapped_nco.lef"
