@@ -55,10 +55,13 @@ void main()
     reg_la1_iena = 0; // input enable off
     reg_la1_oenb = 0; // output enable on
     reg_la1_data = 1 << 0;
+    //for(int i=0; i<32; i++)
+      //reg_la1_data = 1 << i;
 
     // do something with the logic analyser
     reg_la0_iena = 0;
     reg_la0_oenb = 0;
-    reg_la0_data |= 100;
+    //reg_la0_data |= 100;
+    reg_la0_data |= 1;
 }
 
