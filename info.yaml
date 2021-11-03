@@ -8,6 +8,8 @@ project:
   github: https://github.com/ameetgohil/mpw3-nco
   license: LICENSE
 
+interfaces: ['wishbone']
+
 # test within caravel
 caravel_test:
   recipe: "coco_test"
