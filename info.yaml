@@ -13,7 +13,7 @@ interfaces: ['wishbone']
 # test within caravel
 caravel_test:
   recipe: "coco_test"
-  directory: "caravel_nco"
+  directory: "caravel_test"
   id: 0
   module_name: "wrapped_nco"
   instance_name: "wrapped_nco"
