@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : NcoWB
-// Git hash  : 16cca3e7ca68666d7965f4b737ddd3d2d443a608
+// Git hash  : 2070f360706b01c7582fc075a9da409c9e0c1032
 
 
 
@@ -9,7 +9,7 @@ module NcoWB (
   input               io_wb_STB,
   output              io_wb_ACK,
   input               io_wb_WE,
-  input      [31:0]   io_wb_ADR,
+  input      [29:0]   io_wb_ADR,
   output reg [31:0]   io_wb_DAT_MISO,
   input      [31:0]   io_wb_DAT_MOSI,
   input      [3:0]    io_wb_SEL,
@@ -24,16 +24,16 @@ module NcoWB (
   wire                wishboneSlave_doWrite;
   wire                wishboneSlave_doRead;
   reg                 _zz_io_wb_ACK;
-  wire       [33:0]   wishboneSlave_byteAddress;
+  wire       [31:0]   wishboneSlave_byteAddress;
   reg        [31:0]   angle_driver;
 
   always @(*) begin
     io_wb_DAT_MISO = 32'h0;
     case(wishboneSlave_byteAddress)
-      34'h0 : begin
+      32'hc0000000 : begin
         io_wb_DAT_MISO[31 : 0] = angle_driver;
       end
-      34'h000000004 : begin
+      32'hc0000004 : begin
         io_wb_DAT_MISO[31 : 0] = io_xy;
       end
       default : begin
@@ -60,7 +60,7 @@ module NcoWB (
 
   always @(posedge clk) begin
     case(wishboneSlave_byteAddress)
-      34'h0 : begin
+      32'hc0000000 : begin
         if(wishboneSlave_doWrite) begin
           angle_driver <= io_wb_DAT_MOSI[31 : 0];
         end

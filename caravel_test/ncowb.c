@@ -22,7 +22,7 @@
 		- Configures MPRJ lower 8-IO pins as outputs
 		- Observes counter value through the MPRJ lower 8 IO pins (in the testbench)
 */
-
+#define angle (*(volatile uint32_t*)0x30000000)
 void main()
 {
 	/* 
@@ -63,5 +63,7 @@ void main()
     reg_la0_oenb = 0;
     //reg_la0_data |= 100;
     reg_la0_data |= 1;
+
+    angle = 0x9A9;
 }
 

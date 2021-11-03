@@ -27,6 +27,26 @@ import scala.util.Random
 //Hardware definition
 class NcoWB extends Component {
   val io = new Bundle {
+    val wb = slave(Wishbone(WishboneConfig(addressWidth = 30,
+      dataWidth = 32,
+      selWidth = 4
+    )))
+    val angle = out Bits(32 bits)
+    val xy = in Bits(32 bits)
+  }
+
+
+
+  val angle = Reg(Bits(32 bits)) init(0)
+  val wishboneSlave = WishboneSlaveFactory(io.wb)
+  wishboneSlave.driveAndRead(angle, address = BigInt("C0000000",16),documentation = "32-bit angle")
+  io.angle := angle
+  wishboneSlave.read(io.xy, BigInt("C0000004", 16))
+
+}
+
+/*class NcoWB extends Component {
+  val io = new Bundle {
     val wb = slave(Wishbone(WishboneConfig(addressWidth = 32,
       dataWidth = 32,
       selWidth = 4
@@ -39,7 +59,7 @@ class NcoWB extends Component {
 
   val angle = Reg(Bits(32 bits)) init(0)
   val wishboneSlave = WishboneSlaveFactory(io.wb)
-  wishboneSlave.driveAndRead(angle, address = 0,documentation = "32-bit angle")
+  wishboneSlave.driveAndRead(angle, address = 0x30000000,documentation = "32-bit angle")
   val maddr = wishboneSlave.createReadAndWrite(Bits(32 bits), 4)
   val mwdata = wishboneSlave.createReadAndWrite(Bits(32 bits), 8)
   val mwrite = wishboneSlave.createReadAndWrite(Bool(), 0xC)
@@ -48,7 +68,7 @@ class NcoWB extends Component {
   mrdata := m(U(maddr).resized)
   io.angle := angle
 
-}
+}*/
 
 //Define a custom SpinalHDL configuration with synchronous reset instead of the default asynchronous one. This configuration can be resued everywhere
 object MySpinalConfig extends SpinalConfig(defaultConfigForClockDomains = ClockDomainConfig(resetKind = SYNC, resetActiveLevel = HIGH), targetDirectory = "generated")
