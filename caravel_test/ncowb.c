@@ -54,7 +54,7 @@ void main()
     // activate the project by setting the 1st bit of 2nd bank of LA - depends on the project ID
     reg_la1_iena = 0; // input enable off
     reg_la1_oenb = 0; // output enable on
-    reg_la1_data = 1 << 1;
+    reg_la1_data = 1 << 0;
 
     // do something with the logic analyser
     reg_la0_iena = 0;

@@ -79,7 +79,7 @@ module ncowb_tb;
 	);
 
 	spiflash #(
-		.FILENAME("project.hex")
+		.FILENAME("ncowb.hex")
 	) spiflash (
 		.csb(flash_csb),
 		.clk(flash_clk),
