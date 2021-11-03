@@ -21,7 +21,7 @@ caravel_test:
 # module test
 module_test:
   recipe: "all" 
-  directory: "project directory"
+  directory: "./"
   makefile: "Makefile"
 
 # run the wrapper formal proof
