@@ -27,7 +27,7 @@ UPRJ_VERILOG_PATH ?= ../../../verilog
 UPRJ_RTL_PATH = $(UPRJ_VERILOG_PATH)/rtl
 UPRJ_BEHAVIOURAL_MODELS = ../
 
-## RISCV GCC
+## RISCV GCC 
 GCC_PATH?=/ef/apps/bin
 GCC_PREFIX?=riscv32-unknown-elf
 PDK_PATH?=/ef/tech/SW/sky130A
@@ -36,7 +36,9 @@ PDK_PATH?=/ef/tech/SW/sky130A
 SIM?=RTL
 
 # include the modules that cocotb needs for test
-export PYTHONPATH := $(UPRJ_RTL_PATH)/wrapped_nco/caravel_test
+export COCOTB_REDUCED_LOG_FMT=1
+export PYTHONPATH := $(UPRJ_RTL_PATH)/wrapped_project/project/test
+export LIBPYTHON_LOC=$(shell cocotb-config --libpython)
 
 .SUFFIXES:
 
@@ -55,18 +57,19 @@ coco_test: ${PATTERN}.hex
 	-I $(UPRJ_BEHAVIOURAL_MODELS)    -I $(UPRJ_RTL_PATH)
 
 	MODULE=test_ncowb vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
+	! grep failure results.xml
 
 %.vvp: %_tb.v %.hex
 ifeq ($(SIM),RTL)
 	iverilog -DFUNCTIONAL -DSIM -I $(PDK_PATH) \
 	-I $(CARAVEL_BEHAVIOURAL_MODELS) -I $(CARAVEL_RTL_PATH) \
 	-I $(UPRJ_BEHAVIOURAL_MODELS)    -I $(UPRJ_RTL_PATH) \
-	$< -o $@
-else
+	$< -o $@ 
+else  
 	iverilog -DFUNCTIONAL -DSIM -DGL -I $(PDK_PATH) \
 	-I $(CARAVEL_BEHAVIOURAL_MODELS) -I $(CARAVEL_RTL_PATH) -I $(CARAVEL_VERILOG_PATH) \
 	-I $(UPRJ_BEHAVIOURAL_MODELS) -I$(UPRJ_RTL_PATH)   -I $(UPRJ_VERILOG_PATH) \
-	$< -o $@
+	$< -o $@ 
 endif
 
 %.vcd: %.vvp
@@ -78,9 +81,9 @@ test:
 %.elf: %.c $(CARAVEL_FIRMWARE_PATH)/sections.lds $(CARAVEL_FIRMWARE_PATH)/start.s
 	${GCC_PATH}/${GCC_PREFIX}-gcc -I $(CARAVEL_PATH) -march=rv32imc -mabi=ilp32 -Wl,-Bstatic,-T,$(CARAVEL_FIRMWARE_PATH)/sections.lds,--strip-debug -ffreestanding -nostdlib -o $@ $(CARAVEL_FIRMWARE_PATH)/start.s $<
 
-# to fix flash base address
 %.hex: %.elf
-	${GCC_PATH}/${GCC_PREFIX}-objcopy -O verilog $< $@
+	${GCC_PATH}/${GCC_PREFIX}-objcopy -O verilog $< $@ 
+	# to fix flash base address
 	sed -i 's/@10000000/@00000000/g' $@
 
 %.bin: %.elf

@@ -8,7 +8,8 @@ project:
   github: https://github.com/ameetgohil/mpw3-nco
   license: LICENSE
 
-interfaces: ['wishbone','gpio']
+# optional interfaces you want to use: gpio, la1, la2, la3, irq, clk2 & wishbone
+interfaces: ['la1', 'gpio', 'wishbone']
 
 # test within caravel
 caravel_test:
@@ -39,7 +40,7 @@ source:
     - nco.v
     - src_spinal/generated/NcoWB.v
 
-# gds - check size = 300x300, nothing on metal 5, do a DRC, check 141 tristate buffers, check LVS
+# gds - check nothing on metal 5, DRC & LVS
 gds:
   directory: "gds"
   gds_filename: "wrapped_nco.gds"

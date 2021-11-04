@@ -10,7 +10,7 @@ set ::env(VERILOG_FILES) "$::env(DESIGN_DIR)/wrapper.v \
     $::env(DESIGN_DIR)/nco.v"
 
 # target density, change this if you can't get your design to fit
-set ::env(PL_TARGET_DENSITY) 0.45
+set ::env(PL_TARGET_DENSITY) 0.5
 
 # don't put clock buffers on the outputs, need tristates to be the final cells
 set ::env(PL_RESIZER_BUFFER_OUTPUT_PORTS) 0
@@ -31,11 +31,8 @@ set ::env(DESIGN_IS_CORE) 0
 set ::env(GLB_RT_MAXLAYER) 5
 
 # define power straps so the macro works inside Caravel's PDN
-set ::env(VDD_NETS) [list {vccd1}] 
+set ::env(VDD_NETS) [list {vccd1}]
 set ::env(GND_NETS) [list {vssd1}]
-
-# regular pin order seems to help with aggregating all the macros for the group project
-set ::env(FP_PIN_ORDER_CFG) $script_dir/pin_order.cfg
 
 # turn off CVC as we have multiple power domains
 set ::env(RUN_CVC) 0

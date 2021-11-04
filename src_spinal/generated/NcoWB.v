@@ -1,6 +1,6 @@
 // Generator : SpinalHDL v1.6.0    git head : 73c8d8e2b86b45646e9d0b2e729291f2b65e6be3
 // Component : NcoWB
-// Git hash  : 2070f360706b01c7582fc075a9da409c9e0c1032
+// Git hash  : 910301e155ea862965dabeea7928da2593158c80
 
 
 
@@ -48,7 +48,7 @@ module NcoWB (
   assign io_wb_ACK = (_zz_io_wb_ACK && io_wb_STB);
   assign wishboneSlave_byteAddress = ({2'd0,io_wb_ADR} <<< 2);
   assign io_angle = angle;
-  always @(posedge clk) begin
+  always @(posedge clk or posedge reset) begin
     if(reset) begin
       angle <= 32'h0;
       _zz_io_wb_ACK <= 1'b0;
