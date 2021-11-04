@@ -7,7 +7,7 @@ set ::env(DESIGN_NAME) wrapped_nco
 # add your source files here
 set ::env(VERILOG_FILES) "$::env(DESIGN_DIR)/wrapper.v \
     $::env(DESIGN_DIR)/src_spinal/generated/NcoWB.v \
-    $::env(DESIGN_DIR)/nco.v"
+    $::env(DESIGN_DIR)/verilog/rtl/nco.v"
 
 # target density, change this if you can't get your design to fit
 set ::env(PL_TARGET_DENSITY) 0.5
