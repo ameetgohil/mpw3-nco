@@ -6,7 +6,7 @@ project:
   picture: docs/empty.png
   author: "Ameet Gohil"
   github: https://github.com/ameetgohil/mpw3-nco
-  license: Apache2
+  license: LICENSE
 
 # optional interfaces you want to use: gpio, la1, la2, la3, irq, clk2 & wishbone
 interfaces: ['la1', 'gpio', 'wishbone']
