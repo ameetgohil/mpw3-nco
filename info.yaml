@@ -15,7 +15,7 @@ interfaces: ['la1', 'gpio', 'wishbone']
 caravel_test:
   recipe: "coco_test"
   directory: "caravel_test"
-  id: 0
+  id: 7
   module_name: "wrapped_nco"
   instance_name: "wrapped_nco"
 

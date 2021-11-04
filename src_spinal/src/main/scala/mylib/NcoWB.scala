@@ -24,6 +24,21 @@ import spinal.lib.bus.wishbone.{Wishbone, WishboneConfig, WishboneSlaveFactory}
 
 import scala.util.Random
 
+class nco extends BlackBox {
+  val io = new Bundle {
+    val clk = in Bool()
+    val reset_n = in Bool()
+    val t_angle_dat = in Bits(32 bits)
+    val t_angle_req = in Bool()
+    val t_angle_ack = out Bool()
+    val i_nco_dat = out Bits(32 bits)
+    val i_nco_req = out Bool()
+    val i_nco_ack = in Bool()
+  }
+
+  mapClockDomain(clock = io.clk, reset = io.reset_n, resetActiveLevel = LOW)
+  noIoPrefix()
+}
 //Hardware definition
 class NcoWB extends Component {
   val io = new Bundle {
@@ -33,15 +48,52 @@ class NcoWB extends Component {
     )))
     val angle = out Bits(32 bits)
     val xy = in Bits(32 bits)
+    //val sinwave = out Bool()
+    //val sinwave_oeb = out Bool()
   }
 
-
-
-  val angle = Reg(Bits(32 bits)) init(0)
+  val ncoBB = new nco
+  //io.sinwave_oeb := False
+  //val sinwave = Bool()
+  //val sinAccumulator = Reg(Bits(18 bits)) init(0)
+  //val delayCnt = Reg(UInt(8 bits)) init(0)
+  //val mode = Reg(Bits(2 bits)) init(0)
+  //val thetaDelta = Reg(SInt(8 bits)) init(0)
+  //val delay = Reg(Bits(8 bits)) init(0)
+  val angleInit = Reg(SInt(32 bits)) init(0)
+  //val angle = Reg(SInt(width = 32 bits)) init(0)
   val wishboneSlave = WishboneSlaveFactory(io.wb)
-  wishboneSlave.driveAndRead(angle, address = BigInt("C0000000",16),documentation = "32-bit angle")
-  io.angle := angle
-  wishboneSlave.read(io.xy, BigInt("C0000004", 16))
+  wishboneSlave.driveAndRead(angleInit, address = BigInt("C0000000",16),documentation = "32-bit angle")
+  io.angle := angleInit.asBits
+  wishboneSlave.read(ncoBB.io.i_nco_dat, BigInt("C0000010", 16))
+  //wishboneSlave.driveAndRead(mode, address = BigInt("C0000020",16), documentation = "WB/UART")
+  //wishboneSlave.driveAndRead(thetaDelta, address = BigInt("C0000030", 16), documentation = "theta increment")
+  //wishboneSlave.driveAndRead(delay, address = BigInt("C0000040", 16), documentation = "delay")
+
+  //sinAccumulator := (sinAccumulator.asUInt + (ncoBB.io.i_nco_dat(15 downto 0).asSInt + S(0x7FFF,16 bits)).asUInt).asBits
+  //when(wishboneSlave.askWrite)(sinAccumulator := 0)
+  //io.sinwave := sinAccumulator.msb
+  ncoBB.io.t_angle_req := True
+  ncoBB.io.i_nco_ack := True
+  ncoBB.io.t_angle_dat := angleInit.asBits
+
+  /*switch(mode){
+    is(0){
+      ncoBB.io.t_angle_req := True
+      ncoBB.io.i_nco_ack := True
+      angle := angleInit
+    }
+    is(1){
+      ncoBB.io.t_angle_req := True
+      ncoBB.io.i_nco_ack := True
+      when(delayCnt.asBits === delay){
+        delayCnt := 0
+        angle := angle + thetaDelta.resized
+      }.otherwise{
+        delayCnt := delayCnt + 1
+      }
+    }
+  }*/
 
 }
 

@@ -23,6 +23,10 @@
 		- Observes counter value through the MPRJ lower 8 IO pins (in the testbench)
 */
 #define angle (*(volatile uint32_t*)0x30000000)
+#define xy (*(volatile uint32_t*)0x30000004)
+#define mode (*(volatile uint32_t*)0x30000008)
+#define thetaDelta (*(volatile uint32_t*)0x3000000C)
+#define delay (*(volatile uint32_t*)0x30000010)
 void main()
 {
 	/* 
@@ -54,13 +58,23 @@ void main()
     // activate the project by setting the 1st bit of 1st bank of LA - depends on the project ID
     reg_la0_iena = 0; // input enable off
     reg_la0_oenb = 0; // output enable on
-    reg_la0_data = 1 << 0;
+    reg_la0_data = 1 << 7;
 
     // do something with the logic analyser bank la1.
     reg_la1_iena = 0;
     reg_la1_oenb = 0;
     reg_la1_data |= 100;
 
-    angle = 0x9A9;
+    //mode = 0;
+    angle = 0x800FFFFF;
+    angle = 0x800FFFF7;
+    
+    //for(int i = 0; i < 100; i++);
+    //angle = xy;
+    //thetaDelta = 0x55;
+    //delay = 100;
+    //mode = 1;
+    //angle = xy;
+
 }
 
