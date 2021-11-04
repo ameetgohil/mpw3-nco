@@ -5,11 +5,12 @@ mode prove
 smtbmc
 
 [script]
-read -formal wrapper.v NcoWB.v
+read -formal wrapper.v nco.v NcoWB.v
 prep -top wrapped_nco
 
 [files]
 wrapper.v
 properties.v
+./verilog/rtl/nco.v
 ./src_spinal/generated/NcoWB.v
 

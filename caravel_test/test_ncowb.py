@@ -28,9 +28,15 @@ async def test_start(dut):
     # wait with a timeout for the project to become active
     await with_timeout(RisingEdge(dut.uut.mprj.wrapped_nco_7.active), 180, 'us')
 
+    #await with_timeout(dut.uut.mprj.wrapped_nco_7.u_ncowb.ncoBB.i_nco_dat.value.binstr == "E87B9680", 10, 'us')
+
     # wait
     await ClockCycles(dut.clk, 6000)
 
     # assert something
-    assert(True)
+    ncoval = dut.uut.mprj.wrapped_nco_7.u_ncowb.ncoBB.i_nco_dat.value.integer
+    #print(hex(ncoval))
+    #print(ncoval == 0xE87B9680)
+    assert(ncoval == 0xE87B9680)
+    
 

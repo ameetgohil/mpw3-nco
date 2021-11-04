@@ -22,7 +22,7 @@ caravel_test:
 # module test
 module_test:
   recipe: "all" 
-  directory: "./"
+  directory: "verilog/dv"
   makefile: "Makefile"
 
 # run the wrapper formal proof
@@ -37,7 +37,7 @@ openlane:
 # source required for various configs and module instantiation
 source:
     - wrapper.v
-    - nco.v
+    - verilog/rtl/nco.v
     - src_spinal/generated/NcoWB.v
 
 # gds - check nothing on metal 5, DRC & LVS
