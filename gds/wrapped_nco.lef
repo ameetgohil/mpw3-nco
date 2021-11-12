@@ -2569,7 +2569,7 @@ MACRO wrapped_nco
   END wbs_we_i
   OBS
       LAYER li1 ;
-        RECT 7.045 7.905 297.475 287.895 ;
+        RECT 5.520 7.905 297.475 288.405 ;
       LAYER met1 ;
         RECT 0.070 6.500 298.470 289.980 ;
       LAYER met2 ;
