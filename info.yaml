@@ -3,7 +3,7 @@
 project: 
   title: "nco"
   description: "generates signed sin and cos outputs given an angle accessible via wishbone"
-  picture: docs/empty.png
+  picture: ./nco.png
   author: "Ameet Gohil"
   github: https://github.com/ameetgohil/mpw3-nco
   license: LICENSE
